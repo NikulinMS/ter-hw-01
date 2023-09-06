@@ -140,89 +140,82 @@ nginx        latest    eea7b3dcba7e   3 weeks ago   187MB
 
 ---
 
-### Задание 2
+### Задание 2*
 
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
-
+Подготовим `main.tf` файл:
 ```
-Поле для вставки кода...
-....
-....
-....
-....
+terraform {
+  required_providers {
+    virtualbox = {
+      source = "shekeriev/virtualbox"
+      version = "0.0.4"
+    }
+  }
+}
+
+provider "virtualbox" {
+  delay      = 60
+  mintimeout = 5
+}
+
+resource "virtualbox_vm" "vm1" {
+  name   = "centos-7"
+  image  = "https://github.com/tommy-muehle/puppet-vagrant-boxes/releases/download/1.1.0/centos-7.0-x86_64.box"
+  cpus      = 1
+  memory    = "512 mib"
+
+
+  network_adapter {
+    type           = "hostonly"
+    device         = "IntelPro1000MTDesktop"
+    host_interface = "VirtualBox Host-Only Ethernet Adapter"
+  }
+}
+
+output "IPAddress" {
+  value = element(virtualbox_vm.vm1.*.network_adapter.0.ipv4_address, 1)
+}
 ```
-
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота 2](ссылка на скриншот 2)`
-
-
----
-
-### Задание 3
-
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
-
+Результат команды `terraform plan`:
 ```
-Поле для вставки кода...
-....
-....
-....
-....
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # virtualbox_vm.vm1 will be created
+  + resource "virtualbox_vm" "vm1" {
+      + cpus   = 1
+      + id     = (known after apply)
+      + image  = "https://github.com/tommy-muehle/puppet-vagrant-boxes/releases/download/1.1.0/centos-7.0-x86_64.box"
+      + memory = "512 mib"
+      + name   = "centos-7"
+      + status = "running"
+
+      + network_adapter {
+          + device                 = "IntelPro1000MTDesktop"
+          + host_interface         = "VirtualBox Host-Only Ethernet Adapter"
+          + ipv4_address           = (known after apply)
+          + ipv4_address_available = (known after apply)
+          + mac_address            = (known after apply)
+          + status                 = (known after apply)
+          + type                   = "hostonly"
+        }
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + IPAddress = (known after apply)
 ```
-
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота](ссылка на скриншот)`
-
-### Задание 4
-
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
-
+Результат работы:
 ```
-Поле для вставки кода...
-....
-....
-....
-....
+virtualbox_vm.vm1: Creation complete after 1m44s [id=2a9bb978-b8c1-416d-bdf2-1bc054392945]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+IPAddress = "192.168.56.101"
 ```
-
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота](ссылка на скриншот)`
-
----
-## Дополнительные задания (со звездочкой*)
-
-
-### Задание 5
-
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
-
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота](ссылка на скриншот)`
+![task_2_1.png](img%2Ftask_2_1.png)
